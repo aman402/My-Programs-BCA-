@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int main(){
+	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+	int tc;
+	cin >> tc;
+	while(tc--){
+		long long n;
+		cin >> n;
+		string s;
+		cin >> s;
+ 
+		int h=0,v=0;
+		 int l =  0,r=0;
+ 
+		map<pair<int , int>, int> m;
+		m[{0,0}] = 0;
+		for(long long i=0;i<n;i++){
+			if(s[i] == 'L') h--;
+			else if(s[i]=='R') h++;
+			else if(s[i]=='U') v++;
+			else v--;
+ 
+			if(m.find({h,v})!=m.end()){
+				int a = m[{h,v}]+1;
+				int b = i+1;
+				if(!l || b-a < r-l){
+					l = a;
+					r = b;
+				}
+			}
+			m[{h,v}] = i+1;
+		}
+ 
+		if(l && r) cout << l << " " << r << endl;
+		else cout << -1 << endl;
+ 
+	}
+	return 0;
+}

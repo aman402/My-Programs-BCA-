@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n, cnt = 0;
+    cin>>n;
+    int arr[n];
+    unordered_map<int, int> mymap;
+    for(int i = 0; i < n; ++i)
+    {
+        cin>>arr[i];
+        ++mymap[arr[i]];
+    }
+    if(n == 0 || n == 1)
+    {
+        cout<<n*1<<endl;
+        return 0;
+    }
+    for(int i = 0; i < n; ++i)
+    {
+        --mymap[arr[i]];
+        for(int j = 1; j < 32; ++j)
+        {
+            int x = 1<<j;
+            if(mymap[x - arr[i]] > 0)
+            {
+               // cout<<x<<" ";
+                ++mymap[arr[i]];
+                break;
+            }
+            if(j == 31)
+            {
+                ++cnt;
+            }
+        }
+        ++mymap[arr[i]];
+    }
+    //cout<<endl;
+    cout<<cnt<<endl;
+    return 0;
+}

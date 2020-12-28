@@ -1,0 +1,63 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+unordered_map<int, int> mymap;
+
+void recursion(vector<int> digits, int sum = 0, int mynum = 0)
+{
+    if(digits.size() == 0)
+    {
+        if(mymap.count(sum) == 0)
+        {
+            mymap[sum] = 123456789;
+            mymap[sum] = min(mymap[sum], mynum);
+        }
+        else
+        {
+            mymap[sum] = min(mymap[sum], mynum);
+        }
+        return;
+    }
+    else
+    {
+        if(mymap.count(sum) == 0)
+        {
+            mymap[sum] = 123456789;
+            mymap[sum] = min(mymap[sum], mynum);
+        }
+        else
+        {
+            mymap[sum] = min(mymap[sum], mynum);
+        }
+        int temp = digits[digits.size() - 1];
+        digits.pop_back();
+        recursion(digits, sum, mynum);
+        digits.push_back(temp);
+        sum += temp;
+        mynum = mynum*10 + temp;
+        digits.pop_back();
+        recursion(digits, sum, mynum);
+    }
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int x, ans = -1;
+        cin>>x;
+        vector<int> digits = {9, 8, 7, 6, 5, 4, 3, 2, 1};
+        recursion(digits, 0, 0);
+        if(mymap.count(x) != 0)
+        {
+            cout<<mymap[x]<<endl;
+        }
+        else
+        {
+            cout<<"-1"<<endl;
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class pro
+{
+public:
+    int myskill;
+    int myindex;
+    int mystudents;
+};
+
+bool cmp(pro &object1, pro &object2)
+{
+    return object1.myskill < object2.myskill;
+}
+
+bool cmp1(pro &object1, pro &object2)
+{
+    return object1.myindex < object2.myindex;
+}
+
+int main()
+{
+    int n, k;
+    cin>>n>>k;
+    pro programmer[n];
+    int quarrel[n];
+    memset(quarrel, 0, sizeof(quarrel));
+    for(int i = 0; i < n; ++i)
+    {
+        int myvalue;
+        cin>>myvalue;
+        programmer[i].myskill = myvalue;
+        programmer[i].myindex = i;
+    }
+    for(int i = 0; i < k; ++i)
+    {
+        int x, y;
+        cin>>x>>y;
+        if(programmer[x - 1].myskill > programmer[y - 1].myskill)
+        {
+            ++quarrel[x - 1];
+        }
+        if(programmer[y - 1].myskill > programmer[x - 1].myskill)
+        {
+            ++quarrel[y - 1];
+        }
+    }
+    sort(programmer, programmer + n, cmp);
+    programmer[0].mystudents = 0;
+    for(int i = 1; i < n; ++i)
+    {
+        if(programmer[i].myskill != programmer[i - 1].myskill)
+        {
+            programmer[i].mystudents = i;
+        }
+        else
+        {
+            programmer[i].mystudents = programmer[i - 1].mystudents;
+        }
+    }
+    sort(programmer, programmer + n, cmp1);
+    for(int i = 0; i < n; ++i)
+    {
+        cout<<programmer[i].mystudents - quarrel[i]<<" ";
+    }
+    return 0;
+}

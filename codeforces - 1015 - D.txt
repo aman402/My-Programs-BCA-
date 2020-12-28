@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+//solved after reading tutorial
+
+int main()
+{
+    long long n, k , s;
+    cin>>n>>k>>s;
+    if(k*(n - 1) < s || k > s)
+    {
+        cout<<"NO"<<endl;
+        return 0;
+    }
+    else
+    {
+        cout<<"YES"<<endl;
+        long long pos = 1;
+        while(s)
+        {
+            if(k == s)
+            {
+                if(pos != n)
+                {
+                    ++pos;
+                    cout<<pos<<" ";
+                }
+                else
+                {
+                    --pos;
+                    cout<<pos<<" ";
+                }
+                --s;
+                --k;
+            }
+            else
+            {
+                long long dist = min(n - 1, s - k + 1);
+                if(pos != n)
+                {
+                    pos += dist;
+                }
+                else
+                {
+                    pos -= dist;
+                }
+                cout<<pos<<" ";
+                s -= dist;
+                --k;
+            }
+        }
+    }
+    return 0;
+}

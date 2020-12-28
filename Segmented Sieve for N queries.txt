@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void segmented_sieve(int left, int right)
+{
+    int r = sqrt(right);
+    unordered_map<int, int> not_prime;
+    bool prime[r + 1];
+    memset(prime, true, sizeof(bool)*(r + 1));
+    for(int i = 2; i <= r; ++i)
+    {
+        if(prime[i] == true)
+        {
+            for(int j = i*i; j <= right; j += i)
+            {
+                if(j <= r) prime[j] = false;
+                if(j <= right && j >= left) not_prime[j] = 1;
+            }
+        }
+    }
+    for(int i = left; i <= right; ++i)
+    {
+        if(!not_prime.count(i)) cout<<i<<" ";
+    }
+}
+
+int main()
+{
+    int left, right;
+    cin>>left>>right;
+    segmented_sieve(left, right);
+    return 0;
+}

@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int binarySearch(long long pref[], long long k, int n)
+{
+    int l = 0;
+    int r = n - 1;
+    int answer = -1;
+    while(l <= r)
+    {
+        int mid = l + (r - l)/2;
+        if(pref[mid] < k)
+        {
+            //cout<<"INSIDE pref[mid] < k and k : "<<k<<" pref[mid] : "<<pref[mid]<<endl;
+            l = mid + 1;
+        }
+        else
+        {
+            //cout<<"INSIDE pref[mid] >= k and k : "<<k<<" pref[mid] : "<<pref[mid]<<endl;
+            answer = mid;
+            r = mid - 1;
+        }
+    }
+    //cout<<"ELEMENT INDEX AT : "<<answer<<endl;
+    return answer;
+}
+
+int main()
+{
+    int n, m;
+    cin>>n>>m;
+    long long dorm, prev = 0;
+    long long *pref = new long long[n];
+    for(int i = 0; i < n; ++i)
+    {
+        cin>>dorm;
+        prev += dorm;
+        pref[i] = prev;
+        //cout<<pref[i]<<" ";
+    }
+    //cout<<"\n";
+    for(int i = 0; i < m; ++i)
+    {
+        long long k;
+        cin>>k;
+        int dormIndex = binarySearch(pref, k, n);
+        if(dormIndex == 0)
+        {
+            cout<<dormIndex + 1<<" "<<k<<endl;
+        }
+        else
+        {
+            cout<<dormIndex + 1<<" "<<k - pref[dormIndex - 1]<<endl;
+        }
+    }
+    return 0;
+}

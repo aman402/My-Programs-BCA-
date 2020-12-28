@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+bool wholeNumberCheck(double sum)
+{
+    double F = (int)sum;
+    if(sum - F != 0)
+        return false;
+    else
+        return true;
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, totalsum = 0;
+        int ans = 0;
+        cin>>n;
+        int arr[n];
+        set<int> myset;
+        for(int i = 0; i < n; ++i)
+        {
+            cin>>arr[i];
+            myset.insert(arr[i]);
+            totalsum += arr[i];
+        }
+        if(myset.size() == 1)
+        {
+            cout<<"0"<<endl;
+            continue;
+        }
+        for(int k = 1; k < n; ++k)
+        {
+            double segmentsum = totalsum/(n - k);
+            bool F = wholeNumberCheck(segmentsum);
+            if(!F)
+                continue;
+            else
+            {
+                int mysum = 0;
+                for(int i = 0; i < n; ++i)
+                {
+                    mysum += arr[i];
+                    if(mysum == segmentsum)
+                    {
+                        mysum = 0;
+                    }
+                    if(mysum > segmentsum)
+                    {
+                        break;
+                    }
+                }
+                if(mysum == 0)
+                {
+                    ans = k;
+                    break;
+                }
+            }
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}

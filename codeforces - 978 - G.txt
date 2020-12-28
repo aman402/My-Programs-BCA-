@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class exam
+{
+public:
+    int start;
+    int examdate;
+    int prep;
+    int index;
+};
+
+
+bool s(const exam &obj1, const exam obj2)
+{
+    return obj1.examdate < obj2.examdate;
+}
+
+
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    int answer[n + 1];
+    memset(answer, 0, sizeof(answer));
+    exam details[m];
+    for(int i = 0; i < m; ++i)
+    {
+        int s,d,c;
+        cin>>s>>d>>c;
+        details[i].start = s;
+        details[i].examdate = d;
+        details[i].prep = c;
+        details[i].index = i + 1;
+        answer[d] = m + 1;
+    }
+    sort(details, details + m, s);
+    for(int i = 0; i < m; ++i)
+    {
+        int k = 0;
+        for(int j = details[i].start; j < details[i].examdate; ++j)
+        {
+            if(k == details[i].prep)
+            {
+                break;
+            }
+            else
+            {
+                if(answer[j] == 0)
+                {
+                    ++k;
+                    answer[j] = details[i].index;
+                }
+            }
+        }
+        if(k < details[i].prep)
+        {
+            cout<<"-1"<<endl;
+            return 0;
+        }
+    }
+    for(int i = 1; i < n + 1; ++i)
+    {
+        cout<<answer[i]<<" ";
+    }
+    cout<<"\n";
+    return 0;
+}

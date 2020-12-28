@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// this program gives the prime factors of all numbers equal to or smaller than x in O(logn) time pre-computation allowed (for creating the sieve)
+// for only one number, this program works in O(nlog(logn))
+
+void get_prime_factors(int x, vector<int> &f)
+{
+    int sieve[x + 1];
+    for(int i = 2; i <= x; ++i) sieve[i] = i;
+    for(int i = 2; i <= x; i += 2) sieve[i] = 2;
+    for(int i = 3; i <= sqrt(x); ++i)
+    {
+        if(sieve[i] == i)
+        {
+            for(int j = i*i; j <= x; j += i)
+            {
+                if(sieve[j] == j)
+                    sieve[j] = i;
+            }
+        }
+    }
+    while(x != 1)
+    {
+        f.push_back(sieve[x]);
+        x /= sieve[x];
+    }
+}
+
+int main()
+{
+    int x;
+    cin>>x;
+    vector<int> factors;
+    get_prime_factors(x, factors);
+    for(int i = 0; i < factors.size(); ++i)
+    {
+        cout<<factors[i]<<" ";
+    }
+    return 0;
+}
