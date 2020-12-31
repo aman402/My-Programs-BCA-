@@ -1,0 +1,89 @@
+#include<iostream>
+using namespace std;
+
+int partition(int input[],int starti,int endi)
+{
+    int i=starti+1;
+    int count=0;
+    while(i<=endi)
+    {
+        if(input[i]<input[starti])
+            ++count;
+        ++i;
+    }
+    int j=count+starti;
+    int temp;
+    temp=input[j];
+    input[j]=input[starti];
+    input[starti]=temp;
+    int m=starti;
+    int n=j+1;
+    while(m!=j)
+    {
+        if(input[m]>=input[j])
+        {
+            if(input[n]<input[j])
+            {
+                temp=input[n];
+                input[n]=input[m];
+                input[m]=temp;
+                ++m;
+                ++n;
+            }
+            else
+            {
+                ++n;
+            }
+        }
+        else
+        {
+            ++m;
+        }
+    }
+    return j;
+}
+void sort(int input[],int starti,int endi)
+{
+    if(starti>=endi)
+        return;
+    else
+    {
+        int c=partition(input,starti,endi);
+        sort(input,starti,c-1);
+        sort(input,c+1,endi);
+        return;
+    }
+}
+
+void quickSort(int input[], int size) {
+  /* Don't write main().
+     Don't read input, it is passed as function argument.
+     Change in the given array itself.
+     Taking input and printing output is handled automatically.
+  */
+    int starti=0;
+    int endi=size-1;
+    sort(input,starti,endi);
+}
+
+
+int main(){
+    int n;
+    cin >> n;
+  
+    int *input = new int[n];
+    
+    for(int i = 0; i < n; i++) {
+        cin >> input[i];
+    }
+    
+    quickSort(input, n);
+    for(int i = 0; i < n; i++) {
+        cout << input[i] << " ";
+    }
+    
+    delete [] input;
+
+}
+
+
