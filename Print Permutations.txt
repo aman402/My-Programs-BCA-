@@ -1,0 +1,82 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+// void helper(char , int , int, char);
+void helper1(string , string);
+void printPermutations(string input){
+
+    	/* Don't write main() function.
+	 * Don't read input, it is passed as function argument.
+	 * Print output as specified in the question
+	*/
+    /*
+    char arr1[100], arr2[100];
+    for(int i=0; i<input.size(); i++)
+    {    
+        arr1[i] = input[i];
+        arr2[i] = '\0';
+    }
+    helper(arr1, input.size(), input.size(), arr2);
+    */
+    helper1(input, "");
+}
+
+void helper1(string input, string output)
+{
+    if(input == "")
+    {
+        cout<<output<<endl;
+        return ;
+    }
+    
+    int l = input.size();
+    
+    string o;
+    for(int i=0; i<l; i++)
+    {
+        string s_to_pass = "";  // not '';
+        o = output;
+        o += input[i];
+        
+        for(int j=0; j<l; j++)
+        {
+            if(j!=i)
+                s_to_pass += input[j];  // s_to_pass += input[j];  this will give runtime error.
+        }
+        
+        //s_to_pass = input.substr(0,i) + input.substr(i+1);
+        
+        helper1(s_to_pass, o);
+    }
+}
+/*
+void helper(char input[], int size, int l, char output[])
+{
+    if(size==0)
+    {
+        for(int i=0; i<l; i++)
+            cout<<output[i];
+        cout<<endl;
+        return ;
+    }
+    
+    for(int i=0; i<l; i++)
+    {
+        if(output[i] == '\0')
+        {
+            output[i] = input[0];
+            helper(input+1, size-1, l, output);
+            output[i] = '\0';
+        }
+    }
+}
+*/
+
+int main() {
+    string input;
+    cin >> input;
+    printPermutations(input);
+    return 0;
+}

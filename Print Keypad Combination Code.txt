@@ -1,0 +1,62 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+char getinitial(int my)
+{
+    switch(my)
+    {
+        case 2: return 'a';
+        case 3: return 'd';
+        case 4: return 'g';
+        case 5: return 'j';
+        case 6: return 'm';
+        case 7: return 'p';
+        case 8: return 't';
+        case 9: return 'w';
+    }
+}
+
+void printKeypad(int num,string s=""){
+    /*
+    Given an integer number print all the possible combinations of the keypad. You do not need to return anything just print them.
+    */
+    if(num==0)
+    {
+        cout<<s<<endl;
+        return;
+    }
+    else
+    {
+        int my=num%10;
+        num=num/10;
+        char ch=getinitial(my);
+        if(ch=='p'||ch=='w')
+        {
+            printKeypad(num,ch + s.substr(0));
+            ++ch;
+            printKeypad(num,ch + s.substr(0));
+            ++ch;
+            printKeypad(num,ch + s.substr(0));
+            ++ch;
+            printKeypad(num,ch + s.substr(0));
+        }
+        else
+        {
+            printKeypad(num,ch + s.substr(0));++ch;
+            printKeypad(num,ch + s.substr(0));++ch;
+            printKeypad(num,ch + s.substr(0));
+        }
+        
+    }
+}
+
+
+int main(){
+    int num;
+    cin >> num;
+
+    printKeypad(num);
+
+    return 0;
+}

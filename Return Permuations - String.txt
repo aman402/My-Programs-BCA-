@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int getanswer(string input,string output[],int myrow,int ban[],int bansize,int size)
+{
+    if(output[myrow].length()==size)
+    {
+        return myrow+1;
+    }
+    else
+    {
+        int myban[100];
+        for(int i=0; i<bansize; ++i)
+        {
+            myban[i]=ban[i];
+        }
+        int callit=1;
+        for(int i=0; i<size; ++i)
+        {
+            for(int search=0; search<bansize; ++search)
+            {
+                if(myban[search]==i)
+                {
+                    callit=0;
+                    search=bansize-1;
+                }
+            }
+            if(callit==1)
+            {
+                myban[bansize]=i;
+                ++bansize;
+                output[myrow]=output[myrow]+input[i];
+                myrow=getanswer(input,output,myrow,myban,bansize,size);
+                --bansize;
+            }
+            callit=1;
+        }
+        return myrow;
+    }
+}
+
+int returnPermutations(string input, string output[]){
+   	/* Don't write main() function.
+	 * Don't read input, it is passed as function argument.
+	 * Print output as specified in the question
+	*/
+    int ban[100];
+    int bansize=0;
+    int myrow=0;
+    int size=input.length();
+    int answer=getanswer(input,output,myrow,ban,bansize,size);
+    return answer;
+}
+
+
+
+int main(){
+    string input;
+    cin >> input;
+    string output[10000];
+    int count = returnPermutations(input, output);
+    for(int i = 0; i < count && i < 10000; i++){
+        cout << output[i] << endl;
+    }
+    return 0;
+}

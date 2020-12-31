@@ -1,0 +1,71 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+char firstchar(int mynumber)
+{
+    switch(mynumber)
+    {
+        case 2 : return 'a';
+        case 3 : return 'd';
+        case 4 : return 'g';
+        case 5 : return 'j';
+        case 6 : return 'm';
+        case 7 : return 'p';
+        case 8 : return 't';
+        case 9 : return 'w';
+    }
+}
+
+int keypad(int num, string output[]){
+    /* Insert all the possible combinations of the integer number into the output string array. You do not need to
+    print anything, just return the number of strings inserted into the array.
+    */
+    if(num==0)
+    {
+        output[0]="";
+        return 1;
+    }
+    else
+    {
+        int mynumber=num%10;
+        num=num/10;
+        int size=keypad(num,output);
+        char ch=firstchar(mynumber);
+        char ch1=ch;
+        ++ch1;
+        int i;
+        int temp=size;
+        if(mynumber==7||mynumber==9)
+            i=4;
+        else
+            i=3;
+        for(int j=1; j<i; ++j)
+        {
+            for(int p=0; p<temp; ++p)
+            {
+                output[size+p]=output[p]+ch1;
+            }
+            size=size+temp;
+            ++ch1;
+        }
+        for(int p=0; p<temp; ++p)
+        {
+            output[p]=output[p] + ch;
+        }
+        return size;
+    }
+}
+
+
+int main(){
+    int num;
+    cin >> num;
+
+    string output[10000];
+    int count = keypad(num, output);
+    for(int i = 0; i < count && i < 10000; i++){
+        cout << output[i] << endl;
+    }
+    return 0;
+}
