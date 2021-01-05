@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        long long n, a = 0, b = 0, evensum = 0, oddsum = 0, turn = 0;
+        cin>>n;
+        vector<int> odd;
+        vector<int> even;
+        for(int i = 0; i < n; ++i)
+        {
+            int x;
+            cin>>x;
+            if(x % 2 == 0)
+            {
+                even.push_back(x);
+                evensum += x;
+            }
+            else
+            {
+                odd.push_back(x);
+                oddsum += x;
+            }
+        }
+        sort(odd.begin(), odd.end());
+        sort(even.begin(), even.end());
+        while(!odd.empty() || !even.empty())
+        {
+            if(turn == 0)
+            {
+                turn = 1;
+                if(odd.empty())
+                {
+                    a += even[even.size() - 1];
+                    even.pop_back();
+                }
+                else if(even.empty())
+                {
+                    odd.pop_back();
+                }
+                else
+                {
+                    if(even[even.size() - 1] > odd[odd.size() - 1])
+                    {
+                        a += even[even.size() - 1];
+                        even.pop_back();
+                    }
+                    else
+                    {
+                        odd.pop_back();
+                    }
+                }
+            }
+            else
+            {
+                turn =  0;
+                if(odd.empty())
+                {
+                    even.pop_back();
+                }
+                else if(even.empty())
+                {
+                    b += odd[odd.size() - 1];
+                    odd.pop_back();
+                }
+                else
+                {
+                    if(even[even.size() - 1] > odd[odd.size() - 1])
+                    {
+                        even.pop_back();
+                    }
+                    else
+                    {
+                        b += odd[odd.size() - 1];
+                        odd.pop_back();
+                    }
+                }
+            }
+        }
+        if(a == b)
+            cout<<"Tie"<<endl;
+        else if(a > b)
+            cout<<"Alice"<<endl;
+        else
+            cout<<"Bob"<<endl;
+    }
+    return 0;
+}

@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, ans = 0;
+        cin>>n;
+        int arr[n];
+        for(int i = 0; i < n; ++i)
+        {
+            cin>>arr[i];
+        }
+        map<int, int> score;
+        for(int i = 0; i < n; ++i)
+        {
+            if(!score.count(i))
+            {
+                score[i] = 0;
+            }
+            if(!score.count(i + arr[i]))
+            {
+                score[i + arr[i]] = score[i] + arr[i];
+            }
+            else
+            {
+                score[i + arr[i]] = max(score[i + arr[i]], (score[i] + arr[i]));
+            }
+        }
+        for(auto i : score)
+        {
+            int ele = i.second;
+            ans = max(ans, ele);
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}
