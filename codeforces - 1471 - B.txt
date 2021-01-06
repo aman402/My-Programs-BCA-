@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        ll n, x, sum = 0, x_m = 1, ptr = 0;
+        cin>>n>>x;
+        ll arr[n];
+        for(ll i = 0; i < n; ++i)
+        {
+            cin>>arr[i];
+        }
+        while(arr[ptr] % x_m == 0)
+        {
+            ll val = arr[ptr]/x_m;
+            sum += x_m*val;
+            // cout<<"adding "<<x_m<<" of "<<val<<endl;
+
+            ++ptr;
+            if(ptr == n)
+            {
+                x_m *= x;
+                ptr = 0;
+            }
+        }
+        cout<<sum<<"\n";
+    }
+    return 0;
+}
