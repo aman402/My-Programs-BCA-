@@ -1,0 +1,136 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+
+class p
+{
+public:
+    int h;
+    int w;
+    int id;
+    int ans;
+};
+
+bool by_height(p &a, p &b)
+{
+    return a.h > b.h;
+}
+
+bool by_width(p &a, p &b)
+{
+    return a.w > b.w;
+}
+
+bool by_id(p &a, p &b)
+{
+    return a.id < b.id;
+}
+
+int get_candidate(p sph[], int n, int i)
+{
+    int ans = -1;
+    int left = i + 1;
+    int right = n - 1;
+    while(left <= right)
+    {
+        int mid = (left + right)/2;
+        if(sph[mid].h < sph[i].h)
+        {
+            ans = mid;
+            right = mid - 1;
+        }
+        else left = mid + 1;
+    }
+    return ans;
+}
+
+int get_candidate1(p sph[], int n, int i)
+{
+    int ans = -1;
+    int left = 0;
+    int right = n - 1;
+    while(left <= right)
+    {
+        int mid = (left + right)/2;
+        if(sph[mid].w < sph[i].h)
+        {
+            ans = mid;
+            right = mid - 1;
+        }
+        else left = mid + 1;
+    }
+    return ans;
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, min_width, id_can, min_height;
+        cin>>n;
+        int suff_width[n][2];
+        int suff_height[n][2];
+        p sph[n];
+        for(int i = 0; i < n; ++i)
+        {
+            int x, y;
+            cin>>x>>y;
+            sph[i].h = x;
+            sph[i].w = y;
+            sph[i].id = i;
+        }
+        sort(sph, sph + n, by_height);
+        suff_width[n - 1][0] = -1;
+        suff_width[n - 1][1] = -1;
+        min_width = sph[n - 1].w;
+        id_can = sph[n - 1].id;
+        for(int i = n - 2; i >= 0; --i)
+        {
+            suff_width[i][0] = id_can;
+            suff_width[i][1] = min_width;
+            if(sph[i].w < min_width)
+            {
+                id_can = sph[i].id;
+                min_width = sph[i].w;
+            }
+        }
+        for(int i = 0; i < n; ++i)
+        {
+            int candidate = get_candidate(sph, n, i) - 1;
+            if(candidate > -1 && sph[i].w > suff_width[candidate][1]) sph[i].ans = suff_width[candidate][0];
+            else sph[i].ans = -1;
+        }
+        sort(sph, sph + n, by_width);
+        id_can = sph[n - 1].id;
+        min_height = sph[n - 1].h;
+        for(int i = n - 1; i >= 0; --i)
+        {
+            if(sph[i].h < min_height)
+            {
+                id_can = sph[i].id;
+                min_height = sph[i].h;
+            }
+            suff_height[i][0] = id_can;
+            suff_height[i][1] = min_height;
+        }
+        for(int i = 0; i < n; ++i)
+        {
+            if(sph[i].ans == -1)
+            {
+                int candidate = get_candidate1(sph, n, i);
+                if(candidate > -1 && sph[i].w > suff_height[candidate][1]) sph[i].ans = suff_height[candidate][0];
+            }
+        }
+        sort(sph, sph + n, by_id);
+        for(int i = 0; i < n; ++i)
+        {
+            if(sph[i].ans == -1) cout<<sph[i].ans<<" ";
+            else cout<<sph[i].ans + 1<<" ";
+        }
+        cout<<"\n";
+    }
+    return 0;
+}
