@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n;
+    long long ans = 0;
+    cin>>n;
+    for(int i = 1; i < n; ++i)
+    {
+        int num = n - i;
+        float sq = sqrt(num);
+        for(int j = 1; j <= sq; ++j)
+        {
+            if(num % j == 0)
+            {
+                if(j == sq)
+                {
+                    ++ans;
+                }
+                else
+                {
+                    ans += 2;
+                }
+            }
+        }
+    }
+    cout<<ans<<endl;
+    return 0;
+}
