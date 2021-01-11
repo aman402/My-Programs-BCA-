@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+
+int main()
+{
+    ll n, c, rangesum = 0, prevday = 0, length = 0, ans = 0;
+    map<ll, ll> mymap;
+    cin >> n >> c;
+    for(ll i = 0; i < n; ++i)
+    {
+        ll a, b, cst;
+        cin >> a >> b >> cst;
+        mymap[a] += cst;
+        mymap[b + 1] -= cst;
+    }
+    for(auto &i : mymap)
+    {
+        length = i.first - prevday;
+        ans += min(rangesum, c) * length;
+        rangesum += i.second;
+        prevday = i.first;
+    }
+    cout << ans << "\n";
+    return 0;
+}
