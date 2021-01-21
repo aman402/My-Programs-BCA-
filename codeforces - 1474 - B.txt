@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+const int n = 22000;
+bool prime[n + 1];
+
+long long getPrime(int x)
+{
+    while(1)
+    {
+        if(prime[x] == true)
+            break;
+        else
+            ++x;
+    }
+    return x;
+}
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int d;
+        cin>>d;
+        memset(prime, true, sizeof(bool)*(n + 1));
+        for(int i = 2; i <= sqrt(n); ++i)
+        {
+            if(prime[i] == true)
+            {
+                for(int j = i*i; j <= n; j += i)
+                {
+                    prime[j] = false;
+                }
+            }
+        }
+        long long x = getPrime(d + 1);
+        long long y = getPrime(d + x);
+        long long ans = x * y;
+        cout<<ans<<"\n";
+    }
+    return 0;
+}
