@@ -1,0 +1,86 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, k, ans, ans_exist = 0;
+        cin>>k;
+        n = 2 * k;
+        int arr[n];
+        map<int, int> kmap;
+        vector<pair<int, int>> ans_pairs;
+        for(int i = 0; i < n; ++i)
+        {
+            cin>>arr[i];
+            ++kmap[arr[i]];
+        }
+        if(n > 2)
+        {
+            sort(arr, arr + n, greater<int>());
+            for(int i = 1; i < n; ++i)
+            {
+                map<int, int> mymap = kmap;
+                vector< pair<int, int> > tempans_pairs;
+                tempans_pairs.push_back(make_pair(arr[0], arr[i]));
+                --mymap[arr[0]];
+                --mymap[arr[i]];
+                int ele_removed = 2, ptr = 1, x = arr[0];
+                while(1)
+                {
+                    while(!(mymap[arr[ptr]] > 0))
+                    {
+                        ++ptr;
+                    }
+                    --mymap[arr[ptr]];
+                    if(mymap[x - arr[ptr]] > 0)
+                    {
+                        --mymap[x - arr[ptr]];
+                        ele_removed += 2;
+                        tempans_pairs.push_back(make_pair(arr[ptr], x - arr[ptr]));
+                        x = arr[ptr];
+                        if(ele_removed == n)
+                        {
+                            ans_exist = 1;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if(ans_exist)
+                {
+                    ans_pairs = tempans_pairs;
+                    ans = arr[i];
+                    break;
+                }
+            }
+            if(ans_exist)
+            {
+                cout<<"YES"<<"\n"<<arr[0] + ans<<"\n";
+                for(int i = 0; i < ans_pairs.size(); ++i)
+                {
+                    cout<<ans_pairs[i].first<<" "<<ans_pairs[i].second<<"\n";
+                }
+            }
+            else
+            {
+                cout<<"NO"<<"\n";
+            }
+        }
+        else
+        {
+            cout<<"YES"<<"\n"<<arr[0] + arr[1]<<"\n";
+            cout<<arr[0]<<" "<<arr[1]<<"\n";
+        }
+    }
+    return 0;
+}
