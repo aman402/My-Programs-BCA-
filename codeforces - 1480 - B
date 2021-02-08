@@ -1,0 +1,75 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+
+class mns
+{
+public:
+    long long attack;
+    long long health;
+};
+
+bool comp(mns &a, mns &b)
+{
+    return a.attack < b.attack;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+
+    int t = 1;
+    cin>>t;
+    while(t--)
+    {
+        long long a, b, n, allkill = 0;
+        cin>>a>>b>>n;
+        mns monster[n];
+        for(int i = 0; i < n; ++i)
+        {
+            long long x;
+            cin>>x;
+            monster[i].attack = x;
+        }
+        for(int i = 0; i < n; ++i)
+        {
+            long long x;
+            cin>>x;
+            monster[i].health = x;
+        }
+        sort(monster, monster + n, comp);
+        for(int i = 0; i < n; ++i)
+        {
+            if(i < n - 1)
+            {
+                long long rem = 0;
+                if(monster[i].health % a != 0)
+                    rem = 1;
+                long long strikes = monster[i].health/a + rem;
+                b -= monster[i].attack * strikes;
+                if(b <= 0)
+                    break;
+            }
+            else
+            {
+                long long rem = 0;
+                if(monster[i].health % a != 0)
+                    rem = 1;
+                long long strikes = monster[i].health/a + rem;
+                b -= monster[i].attack * strikes;
+                if(b > monster[i].attack * -1)
+                {
+                    allkill = 1;
+                }
+                // cout<<"strike : "<<strikes<<endl;
+            }
+        }
+        if(allkill)
+            cout<<"YES"<<endl;
+        else
+            cout<<"NO"<<endl;
+    }
+    return 0;
+}
