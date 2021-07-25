@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n, k;
+        cin>>n>>k;
+        int arr[n], ans[n] = {0};
+        map<int, vector<int>> mymap;
+        for(int i = 0; i < n; ++i)
+        {
+            cin>>arr[i];
+            mymap[arr[i]].push_back(i);
+        }
+        int brush = 1;
+        for(auto i = mymap.begin(); i != mymap.end(); ++i)
+        {
+            vector<int> index = i -> second;
+            int vect_size = index.size();
+            int s = min(k, vect_size);
+            for(int i = 0; i < s; ++i)
+            {
+                ans[index[i]] = brush;
+                ++brush;
+                if(brush > k)
+                    brush = 1;
+            }
+        }
+        if(brush > 1)
+        {
+            --brush;
+            set<int> myset;
+            for(int i = 1; i <= brush; ++i)
+            {
+                myset.insert(i);
+            }
+            for(int i = 0; i < n; ++i)
+            {
+                if(myset.count(ans[i]))
+                {
+                    myset.erase(ans[i]);
+                    ans[i] = 0;
+                }
+            }
+
+        }
+        for(int i = 0; i < n; ++i)
+        {
+            cout<<ans[i]<<" ";
+        }
+        cout<<endl;
+    }
+    return 0;
+}
