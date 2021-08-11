@@ -1,0 +1,78 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+
+class word
+{
+public:
+    string s;
+    int total;
+    int l_count[5];
+    int l_diff[5];
+};
+
+int myglobal;
+
+bool custom_sort(word &a, word &b)
+{
+    return a.l_diff[myglobal] > b.l_diff[myglobal];
+}
+
+int letter_count(string s, char a)
+{
+    int cnt = 0;
+    for(int i = 0; i < s.size(); ++i)
+    {
+        if(s[i] == a)
+            ++cnt;
+    }
+    return cnt;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+
+    int t = 1;
+    cin>>t;
+    while(t--)
+    {
+        int n, ans = 0, cntword, cnt;
+        cin>>n;
+        word mywords[n];
+        for(int i = 0; i < n; ++i)
+        {
+            cin>>mywords[i].s;
+            mywords[i].total = mywords[i].s.size();
+            for(int j = 0; j < 5; ++j)
+            {
+                mywords[i].l_count[j] = letter_count(mywords[i].s, 'a' + j);
+                mywords[i].l_diff[j] = mywords[i].l_count[j] - (mywords[i].total - mywords[i].l_count[j]);
+            }
+        }
+        for(int i = 0; i < 5; ++i)
+        {
+            myglobal = i;
+            sort(mywords, mywords + n, custom_sort);
+            cntword = 0, cnt = 0;
+            for(int j = 0; j < n; ++j)
+            {
+                if(cnt + mywords[j].l_diff[i] <= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    cnt += mywords[j].l_diff[i];
+                    ++cntword;
+                }
+            }
+            ans = max(ans, cntword);
+        }
+        // cout<<"ans : ";
+        cout<<ans<<endl;
+    }
+    return 0;
+}
