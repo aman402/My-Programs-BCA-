@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define countbit(x) __builtin_popcount(x)
+#define ll long long
+
+int get_moves(pair<string, ll> mypair, string number)
+{
+    int ptr_two = 0, ptr_number = 0;
+    while(ptr_two < mypair.first.size() && ptr_number < number.size())
+    {
+        if(number[ptr_number] == mypair.first[ptr_two])
+        {
+            ++ptr_number;
+            ++ptr_two;
+        }
+        else
+        {
+            ++ptr_number;
+        }
+    }
+    int moves = number.size() - ptr_two + mypair.second - ptr_two;
+    return moves;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+
+    vector<pair<string, ll>> v;
+    for(int i = 0; i < 64; ++i)
+    {
+        ll two = pow(2, i);
+        string mystring = to_string(two);
+        v.push_back(make_pair(mystring, mystring.size()));
+    }
+    int t = 1;
+    cin>>t;
+    while(t--)
+    {
+        ll n;
+        cin>>n;
+        string number = to_string(n);
+        int ans = 10;
+        for(int i = 0; i < 64; ++i)
+        {
+            // cout<<get_moves(v[i], number)<<endl;
+            ans = min(get_moves(v[i], number), ans);
+        }
+        cout<<ans<<endl;
+    }
+    return 0;
+}
